@@ -286,10 +286,10 @@ async fn returns_empty_when_all_layers_missing() {
         .iter()
         .filter(|layer| matches!(layer.name, super::ConfigLayerSource::System { .. }))
         .count();
-    let expected_system_layers = if cfg!(unix) { 1 } else { 0 };
+    let expected_system_layers = if cfg!(any(unix, windows)) { 1 } else { 0 };
     assert_eq!(
         num_system_layers, expected_system_layers,
-        "system layer should be present only on unix"
+        "system layer should be present only on unix/windows"
     );
 
     #[cfg(not(target_os = "macos"))]
